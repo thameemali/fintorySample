@@ -2,12 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'buffer_page.dart';
 import 'login_page.dart';
 
-main(){
-runApp(const MyApp());
+main() {
+  runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -31,25 +34,39 @@ class SplashScreen extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<SplashScreen> with SingleTickerProviderStateMixin{
+class _MyHomePageState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  bool flag = false;
 
   @override
   void initState() {
+    getSaved(context);
     Timer(
-        const Duration(seconds: 3),
-            () => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const LoginPage())));
+      const Duration(seconds: 3),
+      () => flag?Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const BufferPage(),
+        ),
+      ) : Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginPage(),
+        ),
+      )
+    );
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(alignment: Alignment.center,
+      body: Container(
+        alignment: Alignment.center,
         padding: const EdgeInsets.all(30),
         color: const Color(0xFFFF6F00),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: const [
             Image(
@@ -69,5 +86,16 @@ class _MyHomePageState extends State<SplashScreen> with SingleTickerProviderStat
         ),
       ),
     );
+  }
+
+  Future<void> getSaved(BuildContext context) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final savedUsername = sharedPreferences.getString('useremail');
+    if (savedUsername != null) {
+      flag = true;
+    } else {
+      flag = false;
+    }
   }
 }

@@ -15,6 +15,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   material_design_icons_flutter: 5.0.6595
   fluttertoast: ^8.0.8
+  flutter_rating_bar: ^4.0.0
+  counter_button: ^1.0.1
+  shared_preferences: ^2.0.12
 
 dev_dependencies:
   flutter_test:

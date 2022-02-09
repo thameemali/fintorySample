@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -18,6 +19,7 @@ class _SignUpState extends State<SignUp> {
   int emailLength = 0;
   int numberLength = 0;
   int placeLength = 0;
+  bool _buttonClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +86,9 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       TextField(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp('[a-z0-9@.]')),
+                        ],
                         controller: _emailController,
                         onChanged: (text) {
                           setState(() {
@@ -98,9 +103,13 @@ class _SignUpState extends State<SignUp> {
                           fontSize: 14,
                         ),
                         decoration: InputDecoration(
-                          errorText: emailLength>10?null:'Email should be at least 10 digits',
+                          errorText: _buttonClicked
+                              ? emailLength > 10
+                                  ? null
+                                  : 'Email should be at least 10 digits'
+                              : null,
                           suffixIcon: Icon(
-                            emailLength >10 ? Icons.check : null,
+                            emailLength > 10 ? Icons.check : null,
                             color: Colors.green,
                           ),
                           hintText: 'Enter Email',
@@ -120,11 +129,16 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                       ),
-                       TextField(
+                      TextField(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                            RegExp('[0-9]'),
+                          ),
+                        ],
                         controller: _numberController,
-                        onChanged: (text){
+                        onChanged: (text) {
                           setState(() {
-                            numberLength=text.length;
+                            numberLength = text.length;
                           });
                         },
                         textInputAction: TextInputAction.next,
@@ -135,7 +149,11 @@ class _SignUpState extends State<SignUp> {
                           fontSize: 14,
                         ),
                         decoration: InputDecoration(
-                          errorText: numberLength==10?null:'Number should be 10 digits',
+                          errorText: _buttonClicked
+                              ? numberLength == 10
+                                  ? null
+                                  : 'Number should be 10 digits'
+                              : null,
                           suffixIcon: Icon(
                             numberLength == 10 ? Icons.check : null,
                             color: Colors.green,
@@ -157,11 +175,16 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                       ),
-                       TextField(
+                      TextField(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                            RegExp('[a-zA-z]'),
+                          ),
+                        ],
                         controller: _placeController,
-                        onChanged: (text){
+                        onChanged: (text) {
                           setState(() {
-                            placeLength=text.length;
+                            placeLength = text.length;
                           });
                         },
                         textInputAction: TextInputAction.done,
@@ -171,10 +194,14 @@ class _SignUpState extends State<SignUp> {
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
-                        decoration:  InputDecoration(
-                          errorText: placeLength>5?null:'Place name should be greater than 5 digits',
+                        decoration: InputDecoration(
+                          errorText: _buttonClicked
+                              ? placeLength > 5
+                                  ? null
+                                  : 'Place name should be greater than 5 digits'
+                              : null,
                           suffixIcon: Icon(
-                            placeLength >5 ? Icons.check : null,
+                            placeLength > 5 ? Icons.check : null,
                             color: Colors.green,
                           ),
                           hintText: 'Enter Number Place',
@@ -194,7 +221,11 @@ class _SignUpState extends State<SignUp> {
                               backgroundColor: MaterialStateProperty.all(
                             const Color(0xFFFF6F00),
                           )),
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              _buttonClicked = true;
+                            });
+                          },
                           child: const Text(
                             'Sign Up',
                             style: TextStyle(
