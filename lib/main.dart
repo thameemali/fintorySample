@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:fintory_sample/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'buffer_page.dart';
 import 'login_page.dart';
 
 main() {
@@ -42,19 +42,20 @@ class _MyHomePageState extends State<SplashScreen>
   void initState() {
     getSaved(context);
     Timer(
-      const Duration(seconds: 3),
-      () => flag?Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const BufferPage(),
-        ),
-      ) : Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginPage(),
-        ),
-      )
-    );
+        const Duration(seconds: 3),
+        () => flag
+            ? Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomePage(),
+                ),
+              )
+            : Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginPage(),
+                ),
+              ));
     super.initState();
   }
 

@@ -1,4 +1,5 @@
-import 'package:fintory_sample/buffer_page.dart';
+
+import 'package:fintory_sample/home_page.dart';
 import 'package:fintory_sample/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _obscureText = true;
   bool _buttonClick = false;
+  bool _loginSuccess=false;
 
   void _toggle() {
     setState(() {
@@ -166,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                               RegExp('[0-9]'),
                             ),
                           ],
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.number,
                           style: const TextStyle(
                             color: Colors.black45,
                             fontWeight: FontWeight.bold,
@@ -236,6 +238,7 @@ class _LoginPageState extends State<LoginPage> {
                               });
                               if (_userEmail == _email &&
                                   _userPass == _password) {
+                                _loginSuccess=true;
                                 final sharedPreference =
                                 await SharedPreferences.getInstance();
                                 sharedPreference.setString(
@@ -243,7 +246,7 @@ class _LoginPageState extends State<LoginPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const BufferPage(),
+                                    builder: (context) => const HomePage(),
                                   ),
                                 );
                                 Fluttertoast.showToast(
@@ -309,7 +312,14 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-              )
+              ),
+              Center(
+                child: _loginSuccess
+                    ? const CircularProgressIndicator(
+                  color: Color(0xFFFF6F00),
+                )
+                    : null,
+              ),
             ],
           ),
         ),

@@ -1,4 +1,5 @@
-import 'package:fintory_sample/buffer_page.dart';
+
+import 'package:fintory_sample/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -305,7 +306,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BufferPage(),
+                            builder: (context) => const HomePage(),
                           ),
                         );
                       },
